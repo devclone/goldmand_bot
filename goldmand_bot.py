@@ -173,7 +173,7 @@ def checker():
         print("erreur lors de la récupération des informations du compte")
     mine_attemp = get_timer(account)
 
-    print("[--------------------------------------------------]\n")
+    print("[--------------------------------------------------]")
     if (datetime.datetime.now() > mine_attemp):
         print("mining ...")
         mine(account, account_key)
