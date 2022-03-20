@@ -35,12 +35,12 @@ ATOMIC_ENDPOINTS = [
 ];
 
 BLOCKCHAIN_ENDPOINTS = [
-    "http://localhost:8001/" # you need to run my local api to run smart contracts
+    "http://localhost:8001" # you need to run my local api to run smart contracts
 ];
 
 def get_account(contract, table, scope, bounds, tableIndex, index):
     if (index >= len(WAX_ENDPOINTS)):
-        print("Accoubnt no working with actuals endpoints")
+        print("Account not working with actuals endpoints")
         return
 
     endpoint = WAX_ENDPOINTS[index]
@@ -63,7 +63,8 @@ def get_account(contract, table, scope, bounds, tableIndex, index):
 
 def get_assets(asset_id, index):
     if (index >= len(WAX_ENDPOINTS)):
-        raise ValueError("problem getting infos")
+        print("Assets not working with actuals endpoints")
+        return
 
     response = requests.post(ATOMIC_ENDPOINTS[index] + "/atomicassets/v1/assets/" + asset_id, headers={'content-type': 'application/json'})
     if response.status_code != 200:
@@ -168,16 +169,18 @@ def checker():
     account_key = os.getenv("PRIVATE_KEY")
 
     account = get_account("goldmandgame", "miners", "goldmandgame", account_name, 1, 0)
+    if len(account) == 0:
+        print("erreur lors de la récupération des informations du compte")
     mine_attemp = get_timer(account)
 
     print("[--------------------------------------------------]\n")
     if (datetime.datetime.now() > mine_attemp):
-        print("mining ...\n")
+        print("mining ...")
         mine(account, account_key)
-        account = get_account("goldmandgame", "miners", "goldmandgame", account_name, 1, 0)
-        update_inventory(account, account_key, 0)
+        # account = get_account("goldmandgame", "miners", "goldmandgame", account_name, 1, 0)
+        # update_inventory(account, account_key, 0)
     else:
-        update_inventory(account, account_key, 0)
+        # update_inventory(account, account_key, 0)
         print("Nouvelle tentative de minage -> " + bcolors.WARNING + str(mine_attemp) + bcolors.ENDC + "\n")
     print("[--------------------------------------------------]\n")
     
@@ -187,4 +190,3 @@ if __name__ == "__main__":
     while (1):
         checker()
         time.sleep(120)
-        
