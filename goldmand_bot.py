@@ -186,5 +186,5 @@ if __name__ == "__main__":
     load_dotenv()
     while (1):
         checker()
-        time.sleep(2000)
+        time.sleep(120)
         
