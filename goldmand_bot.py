@@ -169,9 +169,11 @@ def checker():
     account_name = os.getenv("ACCOUNT_NAME")
     account_key = os.getenv("PRIVATE_KEY")
 
+    account = []
     account = get_account("goldmandgame", "miners", "goldmandgame", account_name, 1, 0)
-    if len(account) == 0:
+    if account == []:
         print("erreur lors de la récupération des informations du compte")
+        return
     mine_attemp = get_timer(account)
 
     print("[--------------------------------------------------]")
