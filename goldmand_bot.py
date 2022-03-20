@@ -161,6 +161,7 @@ def mine(account, key):
     if contract.status_code != 200:
         print(contract.text)
         return
+    print("success")
 
 def checker():  
 
