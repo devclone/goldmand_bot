@@ -42,7 +42,7 @@ BLOCKCHAIN_ENDPOINTS = [
 def get_account(contract, table, scope, bounds, tableIndex, index):
     if (index >= len(WAX_ENDPOINTS)):
         print("Account not working with actuals endpoints")
-        return [], FALSE
+        return False
 
     endpoint = WAX_ENDPOINTS[index]
     account_data = {
@@ -60,7 +60,7 @@ def get_account(contract, table, scope, bounds, tableIndex, index):
     if response.status_code != 200:
         get_account(contract, scope, bounds, tableIndex, 1, index + 1)
     else:
-        return response.json(), TRUE
+        return response.json()
 
 def get_assets(asset_id, index):
     if (index >= len(WAX_ENDPOINTS)):
@@ -170,9 +170,8 @@ def checker():
     account_name = os.getenv("ACCOUNT_NAME")
     account_key = os.getenv("PRIVATE_KEY")
 
-    account = []
-    account, checker = get_account("goldmandgame", "miners", "goldmandgame", account_name, 1, 0)
-    if checker == FALSE:
+    account = get_account("goldmandgame", "miners", "goldmandgame", account_name, 1, 0)
+    if account == False:
         print("erreur lors de la récupération des informations du compte")
         return
     mine_attemp = get_timer(account)
