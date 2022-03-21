@@ -81,7 +81,10 @@ def get_tools(inventory):
     return (tools_list)
 
 def get_timer(account):
-    last_mine = account["rows"][0]["last_mine"]
+    try:
+        last_mine = account["rows"][0]["last_mine"]
+    except:
+        return 0
     return (datetime.datetime.fromtimestamp(last_mine) + relativedelta(minutes=int(os.getenv("MINING_TIME"))))
 
 def update_inventory(account, key, index):
@@ -175,6 +178,8 @@ def checker():
         print("erreur lors de la récupération des informations du compte")
         return
     mine_attemp = get_timer(account)
+    if (mine_attemp == 0):
+        return
 
     print("[--------------------------------------------------]")
     if (datetime.datetime.now() > mine_attemp):
