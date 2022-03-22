@@ -148,7 +148,7 @@ def update_inventory(account, key, index):
                 }]}),
             headers={'content-type': 'application/json'})
 
-def mine(account, key):
+def mine(account, key, date):
     infos = json.dumps ({
         "pvkey": [key],
         "contract": [{
@@ -165,7 +165,7 @@ def mine(account, key):
     if contract.status_code != 200:
         print(contract.text)
         return
-    print("success")
+    print("succes at " + date)
 
 def checker():  
 
@@ -180,17 +180,13 @@ def checker():
     mine_attemp = get_timer(account)
     if (mine_attemp == 0):
         return
-
-    print("[--------------------------------------------------]")
     if (datetime.datetime.now() > mine_attemp):
+        print("[--------------------------------------------------]\n")
         print("mining ...")
-        mine(account, account_key)
+        mine(account, account_key, datetime.datetime.now())
         # account = get_account("goldmandgame", "miners", "goldmandgame", account_name, 1, 0)
         # update_inventory(account, account_key, 0)
-    else:
-        # update_inventory(account, account_key, 0)
-        print("Nouvelle tentative de minage -> " + bcolors.WARNING + str(mine_attemp) + bcolors.ENDC + "\n")
-    print("[--------------------------------------------------]\n")
+        print("[--------------------------------------------------]\n")
     
 if __name__ == "__main__":
     print("\n - {Running " + bcolors.OKCYAN + "magic's " + bcolors.ENDC + "bot for goldmand game} - \n")
