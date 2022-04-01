@@ -56,7 +56,10 @@ def get_account(contract, table, scope, bounds, tableIndex, index):
         "key_type": "i64",
         "limit": 100,
     }
-    response = requests.post(endpoint + "/v1/chain/get_table_rows", data=json.dumps(account_data), headers={'content-type': 'application/json'})
+    try:
+        response = requests.post(endpoint + "/v1/chain/get_table_rows", data=json.dumps(account_data), headers={'content-type': 'application/json'})
+    except:
+        pass
     if response.status_code != 200:
         get_account(contract, scope, bounds, tableIndex, 1, index + 1)
     else:
